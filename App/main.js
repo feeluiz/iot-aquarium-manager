@@ -30,6 +30,29 @@ connection.on("connect", err => {
         console.log("Connected to database");
     }
 });
+const queryDatabase = (codAquario) => {
+    console.log("Reading rows from the Table...");
+    const request = new Request(
+        `SELECT TEMP_IDEAL FROM AQUARIO;`,
+        (err, rowCount) => {
+            if (err) {
+                console.error(err.message);
+            } else {
+                //console.log(`${rowCount} row(s) returned`);
+            }
+        }
+    );
+    let result = []
+    request.on("row", columns => {
+        columns.forEach(column => {
+            //console.log("%s\t%s", column.metadata.colName, column.value);
+            result.push(column.value)
+            //console.log(result)
+        });
+    });
+    connection.execSql(request);
+    return result[codAquario]
+}
 
 function insertTemp(temp, codAquario = 0) {
     request = new Request("INSERT INTO TEMPERATURA (TEMP, COD_AQUARIO) VALUES (@TEMP, @COD_AQUARIO);", function (err) {
@@ -48,6 +71,7 @@ function updateLastFood(codAquario) {
             console.log(err);
         }
     });
+    moment.locale('pt-br');
     let time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     request.addParameter('ULTIMO_ALIMENTO', TYPES.DateTime, time);
     request.addParameter('COD_AQUARIO', TYPES.Int, codAquario);
@@ -75,17 +99,24 @@ client.on('message', function (topic, message, packet) {
         let temp = data.temp;
         console.log("Temperature: " + temp + "°C  Aquarium: " + codAquario);
         insertTemp(temp, codAquario)
+        if (temp > queryDatabase(codAquario)) {
+            client.publish(alertTopic, "Temperatura acima do ideal")
+        }
     } else if (topic == foodTopic) {
         let codAquario = Number(message)
         console.log(`Feeding aquarium ${codAquario}`)
         updateLastFood(codAquario);
     }
+
 });
 client.on("error", function (error) {
     console.log("Can't connect" + error);
     process.exit(1)
 });
+
 var tempTopic = process.env.TOPIC_TEMP
 var foodTopic = process.env.TOPIC_FOOD
+var alertTopic = process.env.TOPIC_ALERT
 client.subscribe(tempTopic, { qos: 1 });
 client.subscribe(foodTopic, { qos: 1 });
+client.subscribe(alertTopic, { qos: 1 });
