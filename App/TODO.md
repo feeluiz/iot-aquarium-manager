@@ -17,8 +17,8 @@
 - [ ] Diagrama Elétrigo (Tinkercad) - (Tom)
 
 Código Fonte
--- [ ] Hardware (Pedro, Ian)
--- [ ] Back-end (Pedro, Ian, Fernando)
+- [ ] Hardware (Pedro, Ian)
+- [ ] Back-end (Pedro, Ian, Fernando)
 
 - [ ] Estutura da Entrega
 	- [ ] Projeto
