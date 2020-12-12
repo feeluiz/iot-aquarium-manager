@@ -1,4 +1,4 @@
-- [ ]Relatório ( Oque Implementamos, Quais Dores, Conclusão) - (Tom)
+- [ ] Relatório ( Oque Implementamos, Quais Dores, Conclusão) - (Tom)
 - [ ] Sistema de de Alimentação Automática e Remota
 	- [ ] Liga o Servo Motor e Joga
 		- [x] Manualmente
