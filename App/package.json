@@ -6,7 +6,6 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
-    "momment": "^0.0.1",
     "mqtt": "^4.2.6",
     "node-cron": "^2.0.3",
     "sqlite": "^4.0.18",

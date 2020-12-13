@@ -1,16 +1,18 @@
 - [ ] Sistema de de Alimentação Automática e Remota
-	- [ ] Liga o Servo Motor e Joga
+	- [ ] Liga o Servo Motor e Joga Alimento
 		- [x] Manualmente
 		- [ ] Alimento Periodicamente
 			- [x] Implementar  CronJs para Agenda de Alimentação
 			- [ ] A cada 1 hora executas as seguintes queries(está 1 min para testes)
 				- [x] Verificar se existe algum aquário que para ser alimentado
-				- [ ] Verificar o melhor jeito de criar novas tasks
+				- [x] Verificar o melhor jeito de criar novas tasks
+					- [x] Criar um método que atualiza no BD mais de um aquário por vez
+		- [ ] Verificar o identificador do aquário no código do ESP32
 - [ ] Agente de Temperatura
 	- [ ] Alerta quando a temperatura está maior/menor(tolerância) do que a ideal(Pedro)
 		** A Temperatura ideal para cada aquário é atualizada a cada 12 horas
 		- [ ] Faz uma pequisa no banco a temperatura do aquário
-		- [ ] Verifica se está dentro dos contrains
+		- [ ] Verifica se está dentro dos contrains(limite)
 		- [ ] Se não estivar Emite um alerta
 
 - [ ] Diagrama Elétrico (Tinkercad) - (Tom)

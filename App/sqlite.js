@@ -17,11 +17,9 @@ exports.database = {
         } catch (error) {
             console.log(error);
         }
-
     },
     execute: async (sql) => {
         try {
-            
             await this.database.connect();
             await this.database.db.run(sql);
             await this.database.disconnect();
@@ -33,11 +31,18 @@ exports.database = {
         const sql = `INSERT INTO TEMPERATURA (TEMP, COD_AQUARIO) VALUES (${temp}, ${codAquario});`
         this.database.execute(sql);
     }, 
+    updateQueue: '',
     updateLastFood: async (codAquario) => {
         const now = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
         const sql = `UPDATE AQUARIO SET ULTIMO_ALIMENTO = '${now}' WHERE COD_AQUARIO = ${codAquario};`
-        console.log(sql);
-        this.database.execute(sql);
+        this.database.updateQueue += sql;
+        setTimeout(() => {
+            if (this.database.updateQueue) {
+                this.database.execute(this.database.updateQueue);
+                console.log('food Database updated');
+                this.database.updateQueue = '';
+            }
+        }, 1000);
     },
     printAllFood: async () => {
         rows = await this.database.search('select * from ALIMENTO');
